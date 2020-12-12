@@ -1,16 +1,20 @@
 
 
 def int_func(sentence: str) -> str:
-    first_seentence
-    result = list(sentence)
-    char_change = ord(result[0]) - 32
-    char_change = chr(char_change)
-    result[0] = char_change
-    return ''.join(result)
+    first_sentence = sentence.split()
+    complit_sentence = []
+    for item in first_sentence:
+        result = list(item)
+        char_change = ord(result[0]) - 32
+        char_change = chr(char_change)
+        result[0] = char_change
+        item = ''.join(result)
+        complit_sentence.append(item)
+    return ' '.join(complit_sentence)
 
 
 user_str = input('Введите строку: \n')
-print(int_func(user_str))
+print('Готовое предложение:\n', int_func(user_str))
 
 # user_str = input('Введите строку: \n')
 #
