@@ -1,14 +1,18 @@
 
+def change_char(my_str: str) -> str:
+    result = list(my_str)
+    char_change = ord(result[0]) - 32
+    char_change = chr(char_change)
+    result[0] = char_change
+    my_str = ''.join(result)
+    return my_str
+
 
 def int_func(sentence: str) -> str:
     first_sentence = sentence.split()
     complit_sentence = []
     for item in first_sentence:
-        result = list(item)
-        char_change = ord(result[0]) - 32
-        char_change = chr(char_change)
-        result[0] = char_change
-        item = ''.join(result)
+        item = change_char(item)
         complit_sentence.append(item)
     return ' '.join(complit_sentence)
 
