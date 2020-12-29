@@ -9,49 +9,77 @@ class Car:
 
     def go(self):
         if self.speed == 0:
-            ask_user = input('Начать движение машины?(да : 1, нет : 2) ')
-            if ask_user == 'да' or ask_user == '1':
-                ask_user = True
-            while ask_user:
-                Car.show_speed(self)
-                self.speed += 30
-                time.sleep(2)
-                if self.speed > 100:
-                    print('Предельная скорость!')
-                    break
-        else:
-            while self.speed < 300:
+            ask_user = input('Начать движение?(да : 1, нет : 2)\n')
+            while ask_user == '1':
                 self.speed += 10
+                Car.show_speed(self)
+                ask_user = input('Продолжить разгон?(да : 1, нет : 2, остановиться : 3)\n')
+                time.sleep(2)
+            if ask_user == '3':
+                return Car.stop(self)
+            print(f'Движемся со скоростью {self.speed}')
+            time.sleep(5)
+            return Car.turn(self)
+        else:
+            if self.speed > 0:
+                ask_user = input('Начать ускорение?(да : 1, нет : 2, остановиться : 3)\n')
+                while ask_user == '1':
+                    self.speed += 20
+                    Car.show_speed(self)
+                    ask_user = input('Продолжить разгон?(да : 1, нет : 2, остановиться : 3)\n')
+                    time.sleep(2)
+                if ask_user == '3':
+                    return Car.stop(self)
+                print(f'Движемся со скоростью {self.speed}')
                 time.sleep(5)
-        return ()
+                return Car.turn(self)
+            else:
+                print('Не правильно задана скорость!')
+                self.speed = 0
+                return()
 
     def stop(self):
-        while self.speed > 0:
-            if self.speed < -1:
-                self.speed = 0
-                print('Авто остановилось')
-                Car.show_speed(self)
-            else:
-                Car.show_speed(self)
-                self.speed -= 10
+        ask_user = input('Желаете остановить автомобиль?(да : 1, нет: 2\n')
+        if ask_user == '1':
+            while self.speed > 0:
+                self.speed -= 40
                 time.sleep(2)
-        return ()
+            if self.speed < 0:
+                self.speed = 0
+                print('Автомобиль остановился!')
+        return()
 
     def turn(self):
         if self.speed > 0:
-            print('Авто приближается к перекрестку')
-            direction = input('Можно изменить направление(направо : 1, налево : 2, назад : 3):\n')
-            if direction == 'направо' or direction == '1':
-                print('Авто движется направо относительно перекрестка')
-            elif direction == 'налево' or direction == '2':
-                print('Авто движется налево относительно перекрестка')
+            ask_user = input('Приближаемся к перекреску. Куда будем двигатсья?(1 : прямо, 2 : направо, 3: налево'
+                         ' 4 : назад, остановиться : 5)\n')
+            if ask_user == '1':
+                print('Движемся прямо по перекрестку')
+                direct = 'Прямо'
+            elif ask_user == '2':
+                print('Движемся направо относительно перекрестка')
+                direct = 'Направо'
+            elif ask_user == '3':
+                print('Движемся налево относительно перекрестка')
+                direct = 'Налево'
+            elif ask_user == '4':
+                print('Развернулись на перекрестке')
+                direct = 'Назад'
             else:
-                print('Авто развернулось на перекрестке')
-        return ()
+                print('Останавливаемся после перекрестка')
+                return Car.stop(self)
+        time.sleep(5)
+        return Car.go
 
     def show_speed(self):
         print(self.speed)
-        return ()
+        if self.speed > 300:
+            print('Предельная скорость!')
+            Car.stop(self)
+            return False
+        return True
+
+
 
 
 class TownCar(Car):
@@ -59,73 +87,31 @@ class TownCar(Car):
         super().__init__(speed, color, name, is_police)
         pass
 
-    def show_speed(self) -> bool:
+    def show_speed(self):
         print(self.speed)
         if self.speed > 60:
             print('Превышение скорости!')
-            ask_user = input('Желаете остановить авто?(да : 1, нет : 2)\n')
-            if ask_user == 'да' or ask_user == 1:
-                Car.stop(self)
-                return False
-            else:
-                return True
+            Car.stop(self)
+            return False
         return True
-
-    def go(self):
-        if self.speed == 0:
-            ask_user = input('Начать движение машины?(да : 1, нет : 2) ')
-            if ask_user == 'да' or ask_user == '1':
-                ask_user = True
-            while TownCar.show_speed(self):
-                self.speed += 20
-                time.sleep(2)
-                if self.speed > 100:
-                    print('Предельная скорость!')
-                    break
-        else:
-            while self.speed < 300:
-                self.speed += 10
-                time.sleep(5)
-        return ()
-
 
 class SportCar(Car):
     def __init__(self, speed, color, name, is_police: bool):
         super().__init__(speed, color, name, is_police)
         pass
 
-
 class WorkCar(Car):
     def __init__(self, speed, color, name, is_police: bool):
         super().__init__(speed, color, name, is_police)
         pass
 
-    def go(self):
-        if self.speed == 0:
-            ask_user = input('Начать движение машины?(да : 1, нет : 2) ')
-            if ask_user == 'да' or ask_user == '1':
-                ask_user = True
-            while ask_user:
-                WorkCar.show_speed(self)
-                self.speed += 30
-                time.sleep(2)
-                if self.speed > 100:
-                    print('Предельная скорость!')
-                    break
-        else:
-            while self.speed < 300:
-                self.speed += 10
-                time.sleep(5)
-        return ()
-
-    def show_speed(self):
+   def show_speed(self):
+        print(self.speed)
         if self.speed > 40:
-            WorkCar.show_speed(self)
             print('Превышение скорости!')
-            ask_user = input('Желаете остановить авто?(да, нет)\n')
-            if ask_user == 'да':
-                WorkCar.stop(self)
-
+            Car.stop(self)
+            return False
+        return True
 
 class PoliceCar(Car):
     def __init__(self, speed, color, name, is_police: bool):
